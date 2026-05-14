@@ -19,24 +19,53 @@
     </div>
   </div>
 
-  <!-- Shell do app (oculto até o banco estar pronto) -->
+  <!-- Shell do app -->
   <div id="app" style="display:none">
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <div class="logo-mark">A</div>
-        <div>
-          <div class="logo-name">Acadêmico</div>
-          <div class="logo-sub">Sistema Escolar</div>
+    <header class="topbar">
+      <div class="topbar-row">
+
+        <!-- Marca -->
+        <div class="brand">
+          <div class="brand-mark">A</div>
+          <div>
+            <div class="brand-name">Acadêmico</div>
+            <div class="brand-sub">
+              <span class="brand-dot"></span>
+              <span>v1.0</span>
+            </div>
+          </div>
         </div>
+
+        <!-- Navegação principal -->
+        <nav class="topnav" id="topnav"></nav>
+
+        <!-- Lado direito -->
+        <div class="top-right">
+          <button class="icon-btn" id="btn-theme" title="Alternar tema"></button>
+          <div class="user-chip">
+            <div class="avatar">AD</div>
+            <div>
+              <div class="user-name">Administrador</div>
+              <div class="user-role">Admin</div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <nav id="sidebar-nav"></nav>
-    </aside>
-    <div class="content-area">
+
+      <!-- Sub-navegação (páginas dentro de cada seção) -->
+      <div class="subnav" id="subnav"></div>
+    </header>
+
+    <main>
       <div id="page"></div>
-    </div>
+    </main>
+
+    <!-- Nav mobile (bottom) -->
+    <nav class="mobile-bottom-nav" id="mobile-nav"></nav>
   </div>
 
-  <!-- Containers para modal e toast -->
+  <!-- Containers globais -->
   <div id="modal-root"></div>
   <div id="toast-root"></div>
 
