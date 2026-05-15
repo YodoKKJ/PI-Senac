@@ -51,46 +51,6 @@ var secao_de_cada_rota = {
   boletim:     'lancamentos'
 };
 
-/* icone da lua para o modo escuro */
-var icone_lua = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-/* icone do sol para o modo claro */
-var icone_sol = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
-
-/* verificar se o tema escuro esta ativo */
-var tema_escuro_ativo = localStorage.getItem('academico_theme') === 'dark';
-
-/* funcao para aplicar o tema na pagina */
-function aplicarTema() {
-  if (tema_escuro_ativo == true) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.setAttribute('data-theme', 'light');
-  }
-  var botao_tema = document.getElementById('btn-theme');
-  if (botao_tema != null) {
-    if (tema_escuro_ativo == true) {
-      botao_tema.innerHTML = icone_sol;
-    } else {
-      botao_tema.innerHTML = icone_lua;
-    }
-  }
-}
-
-/* funcao para trocar o tema quando clicar no botao */
-function trocarTema() {
-  if (tema_escuro_ativo == true) {
-    tema_escuro_ativo = false;
-  } else {
-    tema_escuro_ativo = true;
-  }
-  if (tema_escuro_ativo == true) {
-    localStorage.setItem('academico_theme', 'dark');
-  } else {
-    localStorage.setItem('academico_theme', 'light');
-  }
-  aplicarTema();
-}
-
 /* pegar qual pagina esta na url */
 function pegarRotaAtual() {
   var hash_da_url = window.location.hash;
@@ -224,18 +184,12 @@ function mostrarPagina() {
   window.scrollTo(0, 0);
 }
 
-/* aplicar tema antes de tudo */
-aplicarTema();
-
 /* iniciar o banco de dados e depois mostrar o app */
 initDB().then(function() {
   /* esconder a tela de carregamento */
   document.getElementById('loading-screen').style.display = 'none';
   /* mostrar o app */
   document.getElementById('app').style.display = 'flex';
-
-  /* botao de trocar o tema */
-  document.getElementById('btn-theme').addEventListener('click', trocarTema);
 
   /* mostrar a primeira pagina */
   mostrarPagina();
