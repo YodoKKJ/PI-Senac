@@ -1,42 +1,43 @@
-/* ── app.js — Roteador, topbar e navegação ──────────────────────────────── */
+/* app.js - esse arquivo controla a navegacao do sistema */
 
-/* Estrutura de navegação idêntica ao AppShell.jsx original */
-var NAV_TOP = [
+/* aqui eu coloco os botoes do menu de cima */
+var botoes_do_topo = [
   { id: 'inicio',      label: 'Início',       icon: 'dashboard' },
-  { id: 'academico',   label: 'Acadêmico',    icon: 'school',    hasSub: true },
-  { id: 'pessoas',     label: 'Pessoas',      icon: 'users',     hasSub: true },
-  { id: 'lancamentos', label: 'Lançamentos',  icon: 'notas',     hasSub: true }
+  { id: 'academico',   label: 'Acadêmico',    icon: 'school',    temSubmenu: true },
+  { id: 'pessoas',     label: 'Pessoas',      icon: 'users',     temSubmenu: true },
+  { id: 'lancamentos', label: 'Lançamentos',  icon: 'notas',     temSubmenu: true }
 ];
 
-var NAV_SUB = {
+/* aqui ficam os submenus de cada secao */
+var submenus_das_secoes = {
   academico: [
-    { route: 'turmas',    label: 'Turmas',    icon: 'turmas'    },
-    { route: 'series',    label: 'Séries',    icon: 'series'    },
-    { route: 'materias',  label: 'Matérias',  icon: 'materias'  },
-    { route: 'vinculos',  label: 'Vínculos',  icon: 'vinculos'  }
+    { rota: 'turmas',    label: 'Turmas',    icon: 'turmas'    },
+    { rota: 'series',    label: 'Séries',    icon: 'series'    },
+    { rota: 'materias',  label: 'Matérias',  icon: 'materias'  },
+    { rota: 'vinculos',  label: 'Vínculos',  icon: 'vinculos'  }
   ],
   pessoas: [
-    { route: 'alunos',      label: 'Alunos',      icon: 'alunos'      },
-    { route: 'professores', label: 'Professores', icon: 'professores' }
+    { rota: 'alunos',      label: 'Alunos',      icon: 'alunos'      },
+    { rota: 'professores', label: 'Professores', icon: 'professores' }
   ],
   lancamentos: [
-    { route: 'avaliacoes', label: 'Avaliações', icon: 'avaliacoes' },
-    { route: 'notas',      label: 'Notas',      icon: 'notas'      },
-    { route: 'chamada',    label: 'Chamada',    icon: 'chamada'    },
-    { route: 'boletim',    label: 'Boletim',    icon: 'boletim'    }
+    { rota: 'avaliacoes', label: 'Avaliações', icon: 'avaliacoes' },
+    { rota: 'notas',      label: 'Notas',      icon: 'notas'      },
+    { rota: 'chamada',    label: 'Chamada',    icon: 'chamada'    },
+    { rota: 'boletim',    label: 'Boletim',    icon: 'boletim'    }
   ]
 };
 
-/* Página padrão de cada seção ao clicar no topnav */
-var SECTION_DEFAULT = {
+/* qual pagina mostrar quando clicar em cada secao */
+var pagina_padrao_da_secao = {
   inicio:      'dashboard',
   academico:   'turmas',
   pessoas:     'alunos',
   lancamentos: 'avaliacoes'
 };
 
-/* Qual seção cada rota pertence */
-var ROUTE_SECTION = {
+/* qual secao cada rota pertence */
+var secao_de_cada_rota = {
   dashboard:   'inicio',
   turmas:      'academico',
   series:      'academico',
@@ -50,124 +51,204 @@ var ROUTE_SECTION = {
   boletim:     'lancamentos'
 };
 
-/* ── Ícones de tema ──────────────────────────────────────────────────────── */
-var ICON_MOON = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-var ICON_SUN  = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+/* icone da lua para o modo escuro */
+var icone_lua = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+/* icone do sol para o modo claro */
+var icone_sol = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
 
-/* ── Tema escuro ─────────────────────────────────────────────────────────── */
-var isDark = localStorage.getItem('academico_theme') === 'dark';
+/* verificar se o tema escuro esta ativo */
+var tema_escuro_ativo = localStorage.getItem('academico_theme') === 'dark';
 
-function applyTheme() {
-  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-  var btn = document.getElementById('btn-theme');
-  if (btn) btn.innerHTML = isDark ? ICON_SUN : ICON_MOON;
-}
-
-function toggleTheme() {
-  isDark = !isDark;
-  localStorage.setItem('academico_theme', isDark ? 'dark' : 'light');
-  applyTheme();
-}
-
-/* ── Roteamento ──────────────────────────────────────────────────────────── */
-function getRoute() {
-  var h = window.location.hash.replace(/^#\/?/, '').trim();
-  return h || 'dashboard';
-}
-
-function navigate(route) {
-  window.location.hash = route;
-}
-
-/* ── Renderizar topnav ───────────────────────────────────────────────────── */
-function renderTopnav() {
-  var route   = getRoute();
-  var section = ROUTE_SECTION[route] || 'inicio';
-
-  /* Topnav principal */
-  var topnav = document.getElementById('topnav');
-  topnav.innerHTML = NAV_TOP.map(function(n) {
-    var active = section === n.id ? ' active' : '';
-    return '<button class="tnav' + active + '" data-section="' + n.id + '">'
-      + icon(n.icon, 14) + ' ' + n.label
-      + '</button>';
-  }).join('');
-
-  topnav.querySelectorAll('.tnav').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      navigate(SECTION_DEFAULT[this.dataset.section] || 'dashboard');
-    });
-  });
-
-  /* Subnav */
-  var subnav = document.getElementById('subnav');
-  var subs   = NAV_SUB[section] || [];
-  if (subs.length === 0) {
-    subnav.innerHTML = '';
+/* funcao para aplicar o tema na pagina */
+function aplicarTema() {
+  if (tema_escuro_ativo == true) {
+    document.documentElement.setAttribute('data-theme', 'dark');
   } else {
-    subnav.innerHTML = subs.map(function(s) {
-      var active = route === s.route ? ' active' : '';
-      return '<button class="snav' + active + '" data-route="' + s.route + '">'
-        + icon(s.icon, 13) + ' ' + s.label
-        + '</button>';
-    }).join('');
-    subnav.querySelectorAll('.snav').forEach(function(btn) {
-      btn.addEventListener('click', function() { navigate(this.dataset.route); });
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+  var botao_tema = document.getElementById('btn-theme');
+  if (botao_tema != null) {
+    if (tema_escuro_ativo == true) {
+      botao_tema.innerHTML = icone_sol;
+    } else {
+      botao_tema.innerHTML = icone_lua;
+    }
+  }
+}
+
+/* funcao para trocar o tema quando clicar no botao */
+function trocarTema() {
+  if (tema_escuro_ativo == true) {
+    tema_escuro_ativo = false;
+  } else {
+    tema_escuro_ativo = true;
+  }
+  if (tema_escuro_ativo == true) {
+    localStorage.setItem('academico_theme', 'dark');
+  } else {
+    localStorage.setItem('academico_theme', 'light');
+  }
+  aplicarTema();
+}
+
+/* pegar qual pagina esta na url */
+function pegarRotaAtual() {
+  var hash_da_url = window.location.hash;
+  var rota = hash_da_url.replace('#', '').replace('/', '').trim();
+  if (rota == '') {
+    rota = 'dashboard';
+  }
+  return rota;
+}
+
+/* ir para uma pagina */
+function irParaPagina(nome_da_rota) {
+  window.location.hash = nome_da_rota;
+}
+
+/* desenhar a barra de navegacao do topo */
+function desenharNavegacao() {
+  var rota_atual = pegarRotaAtual();
+  var secao_atual = secao_de_cada_rota[rota_atual];
+  if (secao_atual == undefined) {
+    secao_atual = 'inicio';
+  }
+
+  /* montar os botoes do menu principal */
+  var html_botoes_topo = '';
+  for (var i = 0; i < botoes_do_topo.length; i++) {
+    var botao_info = botoes_do_topo[i];
+    var classe_ativa = '';
+    if (secao_atual == botao_info.id) {
+      classe_ativa = ' active';
+    }
+    html_botoes_topo += '<button class="tnav' + classe_ativa + '" data-secao="' + botao_info.id + '">';
+    html_botoes_topo += icon(botao_info.icon, 14) + ' ' + botao_info.label;
+    html_botoes_topo += '</button>';
+  }
+
+  var div_topnav = document.getElementById('topnav');
+  div_topnav.innerHTML = html_botoes_topo;
+
+  /* adicionar evento de clique nos botoes do topo */
+  var todos_botoes_topo = div_topnav.querySelectorAll('.tnav');
+  for (var j = 0; j < todos_botoes_topo.length; j++) {
+    todos_botoes_topo[j].addEventListener('click', function() {
+      var qual_secao = this.dataset.secao;
+      var pagina_para_ir = pagina_padrao_da_secao[qual_secao];
+      if (pagina_para_ir == undefined) {
+        pagina_para_ir = 'dashboard';
+      }
+      irParaPagina(pagina_para_ir);
     });
   }
 
-  /* Mobile bottom nav */
-  var mobileNav = document.getElementById('mobile-nav');
-  mobileNav.innerHTML = NAV_TOP.map(function(n) {
-    var active = section === n.id ? ' active' : '';
-    return '<button class="mobile-nav-btn' + active + '" data-section="' + n.id + '">'
-      + icon(n.icon, 22)
-      + '<span>' + n.label.split(' ')[0] + '</span>'
-      + '</button>';
-  }).join('');
-  mobileNav.querySelectorAll('.mobile-nav-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      navigate(SECTION_DEFAULT[this.dataset.section] || 'dashboard');
-    });
-  });
-}
+  /* montar o submenu da secao atual */
+  var div_subnav = document.getElementById('subnav');
+  var itens_submenu = submenus_das_secoes[secao_atual];
 
-/* ── Renderizar página ───────────────────────────────────────────────────── */
-function renderPage() {
-  var route = getRoute();
-  var container = document.getElementById('page');
-  container.innerHTML = '';
-
-  renderTopnav();
-
-  var fn = Pages[route];
-  if (fn) {
-    fn(container);
+  if (itens_submenu == undefined || itens_submenu.length == 0) {
+    div_subnav.innerHTML = '';
   } else {
-    container.innerHTML = '<div class="page-header"><h1 class="page-title">Página não encontrada</h1></div>';
+    var html_submenu = '';
+    for (var k = 0; k < itens_submenu.length; k++) {
+      var item_sub = itens_submenu[k];
+      var classe_sub_ativa = '';
+      if (rota_atual == item_sub.rota) {
+        classe_sub_ativa = ' active';
+      }
+      html_submenu += '<button class="snav' + classe_sub_ativa + '" data-rota="' + item_sub.rota + '">';
+      html_submenu += icon(item_sub.icon, 13) + ' ' + item_sub.label;
+      html_submenu += '</button>';
+    }
+    div_subnav.innerHTML = html_submenu;
+
+    /* evento de clique no submenu */
+    var botoes_sub = div_subnav.querySelectorAll('.snav');
+    for (var m = 0; m < botoes_sub.length; m++) {
+      botoes_sub[m].addEventListener('click', function() {
+        irParaPagina(this.dataset.rota);
+      });
+    }
   }
 
+  /* nav mobile embaixo da tela */
+  var nav_mobile = document.getElementById('mobile-nav');
+  var html_mobile = '';
+  for (var n = 0; n < botoes_do_topo.length; n++) {
+    var item_mobile = botoes_do_topo[n];
+    var classe_mobile = '';
+    if (secao_atual == item_mobile.id) {
+      classe_mobile = ' active';
+    }
+    var nome_curto = item_mobile.label.split(' ')[0];
+    html_mobile += '<button class="mobile-nav-btn' + classe_mobile + '" data-secao="' + item_mobile.id + '">';
+    html_mobile += icon(item_mobile.icon, 22);
+    html_mobile += '<span>' + nome_curto + '</span>';
+    html_mobile += '</button>';
+  }
+  nav_mobile.innerHTML = html_mobile;
+
+  /* evento de clique no nav mobile */
+  var botoes_mobile = nav_mobile.querySelectorAll('.mobile-nav-btn');
+  for (var p = 0; p < botoes_mobile.length; p++) {
+    botoes_mobile[p].addEventListener('click', function() {
+      var qual_secao_mobile = this.dataset.secao;
+      var pagina_mobile = pagina_padrao_da_secao[qual_secao_mobile];
+      if (pagina_mobile == undefined) {
+        pagina_mobile = 'dashboard';
+      }
+      irParaPagina(pagina_mobile);
+    });
+  }
+}
+
+/* funcao principal que mostra a pagina certa */
+function mostrarPagina() {
+  var rota_atual = pegarRotaAtual();
+  var div_pagina = document.getElementById('page');
+  div_pagina.innerHTML = '';
+
+  /* atualizar navegacao */
+  desenharNavegacao();
+
+  /* chamar a funcao da pagina certa */
+  var funcao_da_pagina = Paginas[rota_atual];
+  if (funcao_da_pagina != undefined) {
+    funcao_da_pagina(div_pagina);
+  } else {
+    div_pagina.innerHTML = '<div class="page-header"><h1 class="page-title">Página não encontrada</h1></div>';
+  }
+
+  /* voltar pro topo da pagina */
   window.scrollTo(0, 0);
 }
 
-/* ── Inicialização ───────────────────────────────────────────────────────── */
-applyTheme();
+/* aplicar tema antes de tudo */
+aplicarTema();
 
+/* iniciar o banco de dados e depois mostrar o app */
 initDB().then(function() {
+  /* esconder a tela de carregamento */
   document.getElementById('loading-screen').style.display = 'none';
+  /* mostrar o app */
   document.getElementById('app').style.display = 'flex';
 
-  /* Botão de tema */
-  document.getElementById('btn-theme').addEventListener('click', toggleTheme);
+  /* botao de trocar o tema */
+  document.getElementById('btn-theme').addEventListener('click', trocarTema);
 
-  renderPage();
-  window.addEventListener('hashchange', renderPage);
+  /* mostrar a primeira pagina */
+  mostrarPagina();
 
-}).catch(function(err) {
-  document.getElementById('loading-screen').innerHTML =
-    '<div class="loading-inner" style="color:var(--bad)">'
+  /* quando mudar a url mostrar a pagina nova */
+  window.addEventListener('hashchange', mostrarPagina);
+
+}).catch(function(erro_que_aconteceu) {
+  /* se der erro mostrar mensagem */
+  var div_loading = document.getElementById('loading-screen');
+  div_loading.innerHTML = '<div class="loading-inner" style="color:var(--bad)">'
     + '<p style="margin-bottom:8px">Erro ao iniciar o banco de dados.</p>'
     + '<p style="font-size:11px;color:var(--ink-3)">Verifique se há conexão com a internet<br>(necessária para carregar o SQL.js via CDN).</p>'
-    + '<p style="font-size:10px;margin-top:8px;font-family:var(--font-mono)">' + String(err) + '</p>'
+    + '<p style="font-size:10px;margin-top:8px;font-family:var(--font-mono)">' + String(erro_que_aconteceu) + '</p>'
     + '</div>';
 });
